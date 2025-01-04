@@ -1,3 +1,7 @@
+import { BASE_URL as ConfigBaseUrl } from './config';
+
+export const BASE_URL = ConfigBaseUrl;
+
 // User Types
 export type User = {
     id: number;
@@ -52,7 +56,3 @@ export type EmailRequest = {
     month: number;
     year: number;
 }
-
-import { BASE_URL } from './config';
-
-export { BASE_URL };
