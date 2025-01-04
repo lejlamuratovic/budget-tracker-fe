@@ -5,6 +5,8 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "jsx": "react-jsx"
-  }
+    "jsx": "react-jsx",
+    "types": ["@testing-library/jest-dom"]
+  },
+  "include": ["src", "jest.config.ts"],
 }

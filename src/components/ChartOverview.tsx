@@ -7,7 +7,7 @@ import {
   TextField,
   Button,
   Card,
-  CardContent
+  CardContent,
 } from "@mui/material";
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
@@ -52,8 +52,15 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
   }
 
   return (
-    <Paper sx={{ padding: "1rem" }}>
-      <Typography variant="h5" gutterBottom textAlign="start" mb={4} mt={1}>
+    <Paper sx={{ padding: "1rem" }} data-testid="chart-overview-container">
+      <Typography
+        variant="h5"
+        gutterBottom
+        textAlign="start"
+        mb={4}
+        mt={1}
+        aria-label="Expense Chart Overview"
+      >
         Expense Chart Overview
       </Typography>
 
@@ -67,31 +74,33 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
       )}
 
       {/* Filters */}
-      <Box sx={{ marginBottom: "1rem" }}>
+      <Box sx={{ marginBottom: "1rem" }} data-testid="filters-container">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="Start Date"
-              type="date"
-              name="startDate"
-              fullWidth
-              size="small"
-              InputLabelProps={{ shrink: true }}
-              value={filters.startDate ? filters.startDate.toISOString().split("T")[0] : ""}
-              onChange={handleFilterChange}
-            />
+          <TextField
+            id="start-date"
+            label="Start Date"
+            type="date"
+            name="startDate"
+            fullWidth
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            value={filters.startDate ? filters.startDate.toISOString().split("T")[0] : ""}
+            onChange={handleFilterChange}
+          />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="End Date"
-              type="date"
-              name="endDate"
-              fullWidth
-              size="small"
-              InputLabelProps={{ shrink: true }}
-              value={filters.endDate ? filters.endDate.toISOString().split("T")[0] : ""}
-              onChange={handleFilterChange}
-            />
+          <TextField
+            id="end-date"
+            label="End Date"
+            type="date"
+            name="endDate"
+            fullWidth
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            value={filters.endDate ? filters.endDate.toISOString().split("T")[0] : ""}
+            onChange={handleFilterChange}
+          />
           </Grid>
           <Grid
             item
@@ -103,10 +112,20 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
             justifyContent="start"
             alignItems="start"
           >
-            <Button variant="contained" color="primary" onClick={() => {}}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {}}
+              aria-label="Apply Filters"
+            >
               Apply Filters
             </Button>
-            <Button variant="outlined" color="secondary" onClick={handleClearFilters}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClearFilters}
+              aria-label="Clear Filters"
+            >
               Clear Filters
             </Button>
           </Grid>
@@ -115,12 +134,17 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
 
       {/* Chart Data */}
       {chartData.length === 0 ? (
-        <Typography align="center">No data available to display the chart.</Typography>
+        <Typography
+          align="center"
+          aria-label="No data message"
+        >
+          No data available to display the chart.
+        </Typography>
       ) : (
         <Grid container spacing={4} alignItems="center">
           <Grid item xs={12} md={6}>
             <ResponsiveContainer width="100%" height={500}>
-              <PieChart>
+              <PieChart aria-label="Expense Chart">
                 <Pie
                   data={chartData}
                   dataKey="expenseCount"
@@ -132,7 +156,11 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
                   label
                 >
                   {chartData.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                      aria-label={`Pie Slice for ${chartData[index].categoryName}`}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -140,8 +168,8 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
             </ResponsiveContainer>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Box>
-              <Typography variant="h6" gutterBottom>
+            <Box data-testid="summary-container">
+              <Typography variant="h6" gutterBottom aria-label="Chart Summary">
                 Summary
               </Typography>
               {chartData.map((item, index) => (
@@ -153,6 +181,7 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
                     backgroundColor: COLORS[index % COLORS.length],
                     color: "white",
                   }}
+                  aria-label={`Summary Card for ${item.categoryName}`}
                 >
                   <CardContent>
                     <Typography variant="subtitle1">

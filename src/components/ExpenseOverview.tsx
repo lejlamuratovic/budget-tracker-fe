@@ -104,6 +104,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
         <IconButton
           color="primary"
           sx={{ marginLeft: 2 }}
+          aria-label="add expense"
           onClick={handleAddExpense} // Open modal for adding
         >
           <AddIcon />
@@ -132,6 +133,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               InputLabelProps={{ shrink: true }}
               onChange={handleTempFilterChange}
               value={tempFilters.startDate || ""}
+              aria-label="filter by start date"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -144,6 +146,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               InputLabelProps={{ shrink: true }}
               onChange={handleTempFilterChange}
               value={tempFilters.endDate || ""}
+              aria-label="filter by end date"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -155,6 +158,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               size="small"
               onChange={handleTempFilterChange}
               value={tempFilters.minAmount || ""}
+              aria-label="filter by minimum amount"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -166,6 +170,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               size="small"
               onChange={handleTempFilterChange}
               value={tempFilters.maxAmount || ""}
+              aria-label="filter by maximum amount"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -177,6 +182,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               size="small"
               onChange={handleTempFilterChange}
               value={tempFilters.categoryId !== null ? tempFilters.categoryId?.toString() : ""}
+              aria-label="filter by category"
             >
               <MenuItem value="">All</MenuItem>
               {categories.map((category) => (
@@ -195,6 +201,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               size="small"
               onChange={handleTempFilterChange}
               value={tempFilters.month || ""}
+              aria-label="filter by month"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -206,6 +213,7 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
               size="small"
               onChange={handleTempFilterChange}
               value={tempFilters.year || ""}
+              aria-label="filter by year"
             />
           </Grid>
           <Grid
@@ -218,10 +226,20 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
             justifyContent="start"
             alignItems="start"
           >
-            <Button variant="contained" color="primary" onClick={handleApplyFilters}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleApplyFilters}
+              aria-label="apply filters"
+            >
               Apply Filters
             </Button>
-            <Button variant="outlined" color="secondary" onClick={handleClearFilters}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClearFilters}
+              aria-label="clear filters"
+            >
               Clear Filters
             </Button>
           </Grid>

@@ -32,7 +32,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
     month: currentDate.getMonth() + 1,
     year: currentDate.getFullYear(),
   });
-  const [appliedFilters, setAppliedFilters] = useState(filters); // Tracks the filters applied when "Apply Filters" is clicked
+  const [appliedFilters, setAppliedFilters] = useState(filters);
   const [newBudgetAmount, setNewBudgetAmount] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [alert, setAlert] = useState<{ type: "error" | "success" | "info"; message: string } | null>(
@@ -173,6 +173,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
             size="small"
             value={filters.month}
             onChange={handleFilterChange}
+            inputProps={{ "aria-label": "Filter by month" }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -184,6 +185,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
             size="small"
             value={filters.year}
             onChange={handleFilterChange}
+            inputProps={{ "aria-label": "Filter by year" }}
           />
         </Grid>
         <Grid
@@ -196,10 +198,20 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
           justifyContent="start"
           alignItems="start"
         >
-          <Button variant="contained" color="primary" onClick={handleApplyFilters}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApplyFilters}
+            aria-label="Apply filters"
+          >
             Apply Filters
           </Button>
-          <Button variant="outlined" color="secondary" onClick={handleClearFilters}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleClearFilters}
+            aria-label="Clear filters"
+          >
             Clear Filters
           </Button>
         </Grid>
@@ -211,7 +223,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
           <Card elevation={3}>
             <CardHeader title="Total Budget" />
             <CardContent>
-              <Typography variant="h4" color="primary">
+              <Typography variant="h4" color="primary" aria-label="Total budget amount">
                 ${budget?.amount || 0}
               </Typography>
             </CardContent>
@@ -221,7 +233,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
           <Card elevation={3}>
             <CardHeader title="Remaining Budget" />
             <CardContent>
-              <Typography variant="h4" color="success">
+              <Typography variant="h4" color="success" aria-label="Remaining budget amount">
                 ${budget?.remaining || 0}
               </Typography>
             </CardContent>
@@ -240,6 +252,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
             onChange={(e) => setNewBudgetAmount(Number(e.target.value))}
             fullWidth
             sx={{ maxWidth: "340px" }}
+            inputProps={{ "aria-label": "New budget amount" }}
           />
           <Grid
             container
@@ -253,10 +266,15 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
               color="primary"
               onClick={budget ? handleUpdateBudget : handleAddBudget}
               disabled={isUpdating}
+              aria-label="Submit budget"
             >
               {isUpdating ? <CircularProgress size={20} /> : budget ? "Update Budget" : "Add Budget"}
             </Button>
-            <Button variant="outlined" onClick={() => setIsEditing(false)}>
+            <Button
+              variant="outlined"
+              onClick={() => setIsEditing(false)}
+              aria-label="Cancel editing"
+            >
               Cancel
             </Button>
           </Grid>
@@ -279,6 +297,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
               setIsEditing(true);
               setNewBudgetAmount(budget?.amount || 0);
             }}
+            aria-label={budget ? "Edit budget" : "Add budget"}
           >
             {budget ? "Edit Budget" : "Add Budget"}
           </Button>
@@ -287,6 +306,7 @@ const BudgetOverview: React.FC<BudgetOverviewProps> = ({ userId }) => {
             color="secondary"
             onClick={handleSendReport}
             disabled={sendReportMutation.isPending}
+            aria-label="Send report"
           >
             {sendReportMutation.isPending ? <CircularProgress size={20} /> : "Send Report"}
           </Button>
