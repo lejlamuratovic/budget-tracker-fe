@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { Box, Typography, Grid, Button, Paper } from "@mui/material";
-import { ExpenseOverview, ChartOverview, BudgetOverview } from "../components/index";
+import { ExpenseOverview as DefaultExpenseOverview, ChartOverview as DefaultChartOverview, BudgetOverview as DefaultBudgetOverview } from "../components/index";
 
-const DashboardPage: React.FC = () => {
+type DashboardPageProps = {
+  ExpenseOverview?: React.ComponentType<{ userId: number }>;
+  ChartOverview?: React.ComponentType<{ userId: number }>;
+  BudgetOverview?: React.ComponentType<{ userId: number }>;
+};
+
+const DashboardPage: React.FC<DashboardPageProps> = ({
+  ExpenseOverview = DefaultExpenseOverview,
+  ChartOverview = DefaultChartOverview,
+  BudgetOverview = DefaultBudgetOverview,
+}) => {
   const email = localStorage.getItem("userEmail");
   const userId = localStorage.getItem("userId");
   const [activeSection, setActiveSection] = useState<"expenses" | "charts" | "budgets">("expenses");
@@ -69,9 +79,9 @@ const DashboardPage: React.FC = () => {
 
       {/* Render Active Section */}
       <Box sx={{ marginTop: "2rem" }}>
-        {activeSection === "expenses" && <ExpenseOverview userId={parseInt(userId!)} />}
-        {activeSection === "charts" && <ChartOverview userId={parseInt(userId!)} />}
-        {activeSection === "budgets" && <BudgetOverview userId={parseInt(userId!)} />}
+        {activeSection === "expenses" && ExpenseOverview && <ExpenseOverview userId={parseInt(userId!)} />}
+        {activeSection === "charts" && ChartOverview && <ChartOverview userId={parseInt(userId!)} />}
+        {activeSection === "budgets" && BudgetOverview && <BudgetOverview userId={parseInt(userId!)} />}
       </Box>
     </Box>
   );
