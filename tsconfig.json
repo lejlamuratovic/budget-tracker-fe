@@ -17,5 +17,5 @@
     "module": "es2022",
   },
   "include": ["src", "jest.config.ts"],
-  "exclude": ["node_modules", "./cypress.config.ts", "node", "cypress", "**/*.cy.tsx"]
+  "exclude": ["node_modules", "./cypress.config.ts", "node", "cypress", "**/*.cy.tsx", "**/__tests__"]
 }
