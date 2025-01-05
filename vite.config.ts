@@ -13,9 +13,11 @@ export default defineConfig({
     'process.env.VITE_BASE_URL': JSON.stringify('http://localhost:5173/'),
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
-      input: 'src/main.tsx', // Ensure your entry file is correct
       external: (id) => id.includes('__tests__'),
     },
   },
+  base: '/',
 })
