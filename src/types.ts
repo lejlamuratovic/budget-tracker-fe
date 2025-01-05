@@ -1,6 +1,4 @@
-import { BASE_URL as ConfigBaseUrl } from './config';
-
-export const BASE_URL = ConfigBaseUrl;
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // User Types
 export type User = {
