@@ -5,3 +5,4 @@ export { default as Loading } from "./Loading";
 export { default as CustomAlert } from "./CustomAlert";
 export { default as ExpenseRow } from "./ExpenseRow";
 export { default as ExpenseModal } from "./ExpenseModal";
+export { default as DailyExpensesOverview } from "./DailyExpenseOverview";

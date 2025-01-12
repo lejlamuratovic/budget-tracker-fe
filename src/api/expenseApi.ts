@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Expense, ExpenseFilterParams, BASE_URL, CategoryChartData } from '../types';
+import { Expense, ExpenseFilterParams, BASE_URL, CategoryChartData, DailyExpense } from '../types';
 
 const api = axios.create({
     baseURL: `${BASE_URL}expenses`,
@@ -33,6 +33,15 @@ export const getCategoryChartData = async (
     const response = await api.get<CategoryChartData[]>(`/chart-data`, {
         params: filters,
     });
+    return response.data;
+};
+
+export const getDailyExpenseOverview = async (userId: number, startDate?: string | null, endDate?: string | null): Promise<DailyExpense[]> => {
+    const params: Record<string, string | number | undefined> = { userId };
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+
+    const response = await api.get<DailyExpense[]>('/daily-overview', { params });
     return response.data;
 };
 

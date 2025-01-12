@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useExpenses, useDeleteExpense, useCategories } from "../hooks";
 import { ExpenseFilterParams, Expense } from "../types";
 
-import { Loading, ExpenseModal, ExpenseRow, CustomAlert } from "./";
+import { Loading, ExpenseModal, ExpenseRow, CustomAlert, DailyExpensesOverview } from "./";
 
 const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
   const queryClient = useQueryClient();
@@ -274,6 +274,8 @@ const ExpenseOverview: React.FC<{ userId: number }> = ({ userId = 1 }) => {
           }}
         />
       )}
+      
+      <DailyExpensesOverview userId={userId} />
     </Paper>
   );
 };
