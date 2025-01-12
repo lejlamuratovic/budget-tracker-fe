@@ -54,3 +54,15 @@ export type EmailRequest = {
     month: number;
     year: number;
 }
+
+export interface DailyExpense {
+    date: string;
+    totalAmount: number;
+    expenseDetails: ExpenseDetail[];
+}
+
+export interface ExpenseDetail {
+    title: string;
+    amount: number;
+    categoryName: string;
+}

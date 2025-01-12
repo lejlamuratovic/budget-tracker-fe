@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getAllExpenses, createExpense, updateExpense, deleteExpense, getCategoryChartData } from '../api';
-import { CategoryChartData, Expense, ExpenseFilterParams } from '../types';
+import { getAllExpenses, createExpense, updateExpense, deleteExpense, getCategoryChartData, getDailyExpenseOverview } from '../api';
+import { CategoryChartData, DailyExpense, Expense, ExpenseFilterParams } from '../types';
 
 
 export const useExpenses = (params: ExpenseFilterParams) => {
@@ -51,5 +51,13 @@ export const useCategoryChartData = (filters: { userId: number; startDate?: Date
     return useQuery<CategoryChartData[]>({
         queryKey: ['categoryChartData', filters],
         queryFn: () => getCategoryChartData(filters),
+    });
+};
+
+
+export const useDailyExpenses = (userId: number, startDate?: string | null, endDate?: string | null) => {
+    return useQuery<DailyExpense[]>({
+        queryKey: ['dailyExpenses', { userId, startDate, endDate }],
+        queryFn: () => getDailyExpenseOverview(userId, startDate, endDate),
     });
 };
