@@ -31,11 +31,13 @@ export type Category = {
     name: string;
 }
 
-// Chart Types
+// Updated Chart Types
 export type CategoryChartData = {
     categoryName: string;
+    totalAmount: number; // Add total amount
     expenseCount: number;
-}
+    expenses: Expense[]; // Add list of expenses
+};
 
 export type ExpenseFilterParams = {
     userId: number;

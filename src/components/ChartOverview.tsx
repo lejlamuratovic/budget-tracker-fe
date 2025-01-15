@@ -12,8 +12,9 @@ import {
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
 import { useCategoryChartData } from "../hooks";
-
+import { CategoryExpenseModal } from "../components"; // Import the modal
 import { CustomAlert, Loading } from ".";
+import { Expense } from "../types";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A569BD", "#F5B041"];
 
@@ -27,6 +28,11 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
     endDate: null as Date | null,
   });
   const [alert, setAlert] = useState<{ type: "error" | "success"; message: string } | null>(null);
+
+  const [selectedCategory, setSelectedCategory] = useState<{
+    name: string;
+    expenses: Expense[];
+  } | null>(null);
 
   const { data: chartData = [], isLoading } = useCategoryChartData({
     ...filters,
@@ -47,6 +53,14 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
     setFilters({ startDate: null, endDate: null });
   };
 
+  const handleCategoryClick = (categoryName: string, expenses: Expense[]) => {
+    setSelectedCategory({ name: categoryName, expenses });
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCategory(null);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -64,7 +78,6 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
         Expense Chart Overview
       </Typography>
 
-      {/* Error Alert */}
       {alert && (
         <CustomAlert
           type={alert.type}
@@ -73,34 +86,33 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
         />
       )}
 
-      {/* Filters */}
       <Box sx={{ marginBottom: "1rem" }} data-testid="filters-container">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="start-date"
-            label="Start Date"
-            type="date"
-            name="startDate"
-            fullWidth
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            value={filters.startDate ? filters.startDate.toISOString().split("T")[0] : ""}
-            onChange={handleFilterChange}
-          />
+            <TextField
+              id="start-date"
+              label="Start Date"
+              type="date"
+              name="startDate"
+              fullWidth
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              value={filters.startDate ? filters.startDate.toISOString().split("T")[0] : ""}
+              onChange={handleFilterChange}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="end-date"
-            label="End Date"
-            type="date"
-            name="endDate"
-            fullWidth
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            value={filters.endDate ? filters.endDate.toISOString().split("T")[0] : ""}
-            onChange={handleFilterChange}
-          />
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              name="endDate"
+              fullWidth
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              value={filters.endDate ? filters.endDate.toISOString().split("T")[0] : ""}
+              onChange={handleFilterChange}
+            />
           </Grid>
           <Grid
             item
@@ -132,12 +144,8 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
         </Grid>
       </Box>
 
-      {/* Chart Data */}
       {chartData.length === 0 ? (
-        <Typography
-          align="center"
-          aria-label="No data message"
-        >
+        <Typography align="center" aria-label="No data message">
           No data available to display the chart.
         </Typography>
       ) : (
@@ -154,6 +162,9 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
                   outerRadius={100}
                   fill="#8884d8"
                   label
+                  onClick={(data, index) =>
+                    handleCategoryClick(chartData[index].categoryName, chartData[index].expenses)
+                  }
                 >
                   {chartData.map((_, index) => (
                     <Cell
@@ -181,6 +192,7 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
                     backgroundColor: COLORS[index % COLORS.length],
                     color: "white",
                   }}
+                  onClick={() => handleCategoryClick(item.categoryName, item.expenses)}
                   aria-label={`Summary Card for ${item.categoryName}`}
                 >
                   <CardContent>
@@ -196,6 +208,15 @@ const ChartOverview: React.FC<ChartOverviewProps> = ({ userId }) => {
             </Box>
           </Grid>
         </Grid>
+      )}
+
+      {selectedCategory && (
+        <CategoryExpenseModal
+          open={!!selectedCategory}
+          onClose={handleCloseModal}
+          categoryName={selectedCategory.name}
+          expenses={selectedCategory.expenses}
+        />
       )}
     </Paper>
   );
