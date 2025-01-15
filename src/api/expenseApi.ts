@@ -30,7 +30,7 @@ export const deleteExpense = async (id: number): Promise<void> => {
 export const getCategoryChartData = async (
     filters: { userId: number; startDate?: Date | null; endDate?: Date | null }
 ): Promise<CategoryChartData[]> => {
-    const response = await api.get<CategoryChartData[]>(`/chart-data`, {
+    const response = await api.get<CategoryChartData[]>('/chart-data', {
         params: filters,
     });
     return response.data;
